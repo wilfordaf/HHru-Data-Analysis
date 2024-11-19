@@ -1,0 +1,72 @@
+[tool.poetry]
+name = "src"
+version = "0.0.1"
+description = "HHru Analysis Pipeline"
+authors = [
+    "Sergey Yurpalov", 
+    "Ilia Khrustalev",
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pandas = "2.2.3"
+requests = "2.32.3"
+clearml = "1.16.5"
+
+[tool.poetry.dev-dependencies]
+pytest = ">=7.4.3"
+pytest-cov = ">=4.1.0"
+mypy = ">=1.6.1"
+flake8 = ">=6.1.0"
+tox = ">=4.11.3"
+pandas-stubs = ">=2.1.4.231227"
+types-requests = "^2.32.0.20240907"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[virtualenvs]
+in-project = true
+
+[tool.pytest.ini_options]
+addopts = "--cov=src"
+testpaths = ["tests"]
+markers = ["skip_tox"]
+
+[tool.coverage.run]
+omit = [
+    "*/enums/*",
+    "*/entities/*",
+    "*/custom_typing/*",
+    "__init__.py",
+    ]
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_also = [
+    "def __repr__",
+    "def __str__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "@(abc\\.)?abstractmethod",
+    ]
+
+ignore_errors = true
+
+[tool.mypy]
+mypy_path = "src"
+check_untyped_defs = true
+disallow_any_generics = true
+ignore_missing_imports = true
+no_implicit_optional = true
+show_error_codes = true
+strict_equality = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+no_implicit_reexport = true
+
+[tool.flake8]
+max-line-length = 120
