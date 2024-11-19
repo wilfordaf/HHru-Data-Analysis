@@ -165,9 +165,6 @@ docker/**/*
 !docker/init.sh
 
 models/**
-data/raw/**
-data/interim/**
-data/processed/**
 
 postgres_data/**
 ollama_data/**
