@@ -168,3 +168,5 @@ models/**
 
 postgres_data/**
 ollama_data/**
+datasets/**/*.csv
+reports/*.html
