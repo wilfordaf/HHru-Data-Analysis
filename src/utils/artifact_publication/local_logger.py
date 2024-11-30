@@ -59,7 +59,6 @@ class LocalLogger(ILogger):
     def _save_plot(self, plot_name: str, plot_figure: Figure) -> None:
         try:
             plot_save_path = self._PLOTS_SAVE_DIR_PATH / f"{plot_name}.html"
-            logger.critical(plot_save_path.as_posix())
             plot_figure.write_html(plot_save_path.as_posix())
             logger.info(f"График успешно сохранён по пути: {plot_save_path}")
         except Exception as e:
