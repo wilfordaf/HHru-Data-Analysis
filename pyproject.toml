@@ -22,6 +22,7 @@ torch = {version = "^2.5.1+cu124", source = "pytorch-gpu"}
 torchvision = {version = "^0.20.1+cu124", source = "pytorch-gpu"}
 torchaudio = {version = "^2.5.1+cu124", source = "pytorch-gpu"}
 kaleido = "0.2.1"
+pypiwin32 = "^223"
 
 
 [tool.poetry.dev-dependencies]
