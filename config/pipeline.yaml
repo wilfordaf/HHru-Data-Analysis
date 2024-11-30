@@ -1,0 +1,40 @@
+common_properties:
+  utilize_clearml: true
+  provide_artifacts_to_project_dir: true
+components:
+  extraction_step_properties:
+    test_parameter: "temp_value"
+  preprocessing_step_properties:
+    unmatching_jobs_threshold: 0.3
+  data_validating_step_properties:
+    test_parameter: "temp_value"
+  data_plot_creation_step_properties:
+    test_parameter: "temp_value"
+dataset:
+  source_data:
+    name: source_data
+    description: Исходные данные
+    tag: raw
+    custom_properties:
+      use_increment: true
+      increment_on: 
+        - Дата обновления резюме
+  preprocessed_data:
+    name: preprocessed_data
+    description: Предобработанные данные
+    tag: processed
+    custom_properties:
+      check_duplicates_by_increment: true
+      apply_preprocessing_only_to_increment: false
+      target_column: ЗП
+      minimal_data_rows: 1
+      bounds:
+        - 0
+        - 1_000_000
+      chisquare_test_p_value: 0.05
+      bootstrapped_ks_test_p_value: 0.05
+      kl_divergence_threshold: 0.5
+  verified_data:
+    name: verified_data
+    description: Проверенные данные для оценки смещения распределений
+    tag: verified
