@@ -43,7 +43,7 @@ class DataValidatingComponent(IDataValidatingComponent):
         custom_validator = CustomMetricsValidator(dataset, parameters, custom_metrics)
         custom_validation_result = custom_validator.validate_data()
         if not custom_validation_result["success"]:
-            return DataValidatingResult(
+            return DataValidatingResult(  # type: ignore
                 success=False,
                 error=DatasetValidationError.BAD_DATA_QUALITY_ERROR,
                 message=custom_validation_result["message"],
