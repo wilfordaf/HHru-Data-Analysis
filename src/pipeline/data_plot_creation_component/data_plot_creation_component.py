@@ -55,8 +55,8 @@ class DataPlotCreationComponent(IDataPlotCreationComponent):
         summary_data = {"Mean Age": df["Возраст"].mean(), "Mean Salary": df["ЗП"].mean(), "Total Entries": len(df)}
         self._target_logger.publish_dictionary_values("Dataset Summary", summary_data)
 
-        if self._config.common_properties.utilize_clearml:
-            self._remove_actual_tags()
+        # if self._config.common_properties.utilize_clearml:
+        #     self._remove_actual_tags()
 
         return DataPlotCreationResult(success=True)
 
