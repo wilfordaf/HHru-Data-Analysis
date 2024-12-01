@@ -4,7 +4,7 @@ from typing import Any, Dict, Union
 import numpy as np
 import pandas as pd
 
-# import torch
+import torch
 from pandas._libs.missing import NAType
 
 from src import logger
@@ -17,7 +17,7 @@ from src.pipeline.data_preprocessing_components.interfaces import IDataPreproces
 from src.utils.artifact_publication.interfaces import ILogger
 from src.utils.exceptions import ServiceError
 
-# from transformers import pipeline
+from transformers import pipeline
 
 
 class DataPreprocessingComponent(IDataPreprocessingComponent):
@@ -79,15 +79,15 @@ class DataPreprocessingComponent(IDataPreprocessingComponent):
         dataset["Возраст"] = dataset["Возраст"].apply(self._extract_age)
         dataset = self._column_fillna_random(dataset, "Возраст")
 
-        # self._init_model()
-        # dataset = dataset[
-        #     dataset.apply(
-        #         self._clear_unmatching_jobs,
-        #         axis=1,
-        #         args=(step_parameters.unmatching_jobs_threshold,),
-        #     )
-        # ]
-        # dataset.drop(columns=["Желаемая должность"], inplace=True)
+        self._init_model()
+        dataset = dataset[
+            dataset.apply(
+                self._clear_unmatching_jobs,
+                axis=1,
+                args=(step_parameters.unmatching_jobs_threshold,),
+            )
+        ]
+        dataset.drop(columns=["Желаемая должность"], inplace=True)
 
         return dataset
 
@@ -113,25 +113,25 @@ class DataPreprocessingComponent(IDataPreprocessingComponent):
 
         return extracted_data
 
-    # def _init_model(self) -> None:
-    #     self._jobs_classifier_pipeline = pipeline(
-    #         "zero-shot-classification",
-    #         model="MoritzLaurer/deberta-v3-xsmall-zeroshot-v1.1-all-33",
-    #         device="cuda" if torch.cuda.is_available() else "cpu",
-    #     )
+    def _init_model(self) -> None:
+        self._jobs_classifier_pipeline = pipeline(
+            "zero-shot-classification",
+            model="MoritzLaurer/deberta-v3-xsmall-zeroshot-v1.1-all-33",
+            device="cuda" if torch.cuda.is_available() else "cpu",
+        )
 
-    # def _clear_unmatching_jobs(self, row: pd.Series, threshold: float) -> bool:  # type: ignore
-    #     if self._jobs_classifier_pipeline is None:
-    #         raise ServiceError("Classifier is not initialized!")
+    def _clear_unmatching_jobs(self, row: pd.Series, threshold: float) -> bool:  # type: ignore
+        if self._jobs_classifier_pipeline is None:
+            raise ServiceError("Classifier is not initialized!")
 
-    #     result = self._jobs_classifier_pipeline(
-    #         row["Желаемая должность"],
-    #         candidate_labels=[row["Искомая позиция"]],
-    #         multi_label=False,
-    #     )
-    #     score = result["scores"][0]
-    #     comparison_result: bool = score >= threshold
-    #     return comparison_result
+        result = self._jobs_classifier_pipeline(
+            row["Желаемая должность"],
+            candidate_labels=[row["Искомая позиция"]],
+            multi_label=False,
+        )
+        score = result["scores"][0]
+        comparison_result: bool = score >= threshold
+        return comparison_result
 
     def _extract_age(self, age: str) -> Union[int, NAType]:
         try:
