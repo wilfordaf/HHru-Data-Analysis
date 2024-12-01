@@ -59,7 +59,7 @@ class DataPlotCreationComponent(IDataPlotCreationComponent):
         if self._config.common_properties.utilize_clearml:
             self._remove_actual_tags()
 
-        return DataPlotCreationResult(success=True)
+        return DataPlotCreationResult(success=True)  # type: ignore
 
     def _remove_actual_tags(self):
         last_tasks: List[Task] = Task.get_tasks(task_name=self._CLEARML_TASK_NAME, tags=["actual"])

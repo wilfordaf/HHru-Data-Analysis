@@ -7,20 +7,6 @@ from src.pipeline.data_validating_components.interfaces import IDataValidator
 
 
 class CustomMetricsValidator(IDataValidator):
-    """
-    Класс для валидации данных с помощью самостоятельно реализованных метрик, критериев.
-    Принимает в конструкторе:
-    :param dataframe: данные, полученные на шаге предобработки, которые хотим валидировать.
-    :param parameters: параметры датасета, получаются из DataController по DatasetName.
-    :param custom_metrics: словарь метрик название: метод. Метод может быть как lambda-функцией, так и методом.
-        :param dataframe: Датасет, который хотим валидировать метрикой. Подставляется self._data.
-        :param parameters: Параметры датасета. Подставляется self._custom_metrics.
-        :return: результат пройдена метрика или нет.
-
-    Пример реализованной метрики:
-    lambda d, p: d.shape[0] >= p["minimal_data_rows"]
-    """
-
     def __init__(
         self,
         dataframe: pd.DataFrame,

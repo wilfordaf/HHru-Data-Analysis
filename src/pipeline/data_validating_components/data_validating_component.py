@@ -54,7 +54,7 @@ class DataValidatingComponent(IDataValidatingComponent):
         gx_target_validator = GreatExpectationsValidator(verified_dataset, dataset, parameters)
         validation_result = gx_target_validator.validate_data()
         if not validation_result["success"]:
-            return DataValidatingResult(
+            return DataValidatingResult(  # type: ignore
                 success=False,
                 error=validation_result["error"],
                 message=validation_result["message"],

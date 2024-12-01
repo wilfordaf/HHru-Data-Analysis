@@ -64,7 +64,7 @@ class DataExtractingComponent(IDataExtractingComponent):
         self._data_controller.save_dataset(extracted_data, DatasetName.SOURCE_DATA)
         logger.info(f"Шаг извлечения данных {DatasetName.SOURCE_DATA} выполнен с параметрами: {dataset_parameters}")
 
-        return DataExtractingResult({"source_data": DatasetName.SOURCE_DATA})
+        return DataExtractingResult({"source_data": DatasetName.SOURCE_DATA})  # type: ignore
 
     def _extract_api_data(
         self,

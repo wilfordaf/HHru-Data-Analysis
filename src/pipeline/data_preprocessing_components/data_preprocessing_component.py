@@ -64,7 +64,7 @@ class DataPreprocessingComponent(IDataPreprocessingComponent):
 
         logger.info(f"Шаг подготовки данных выполнен с параметрами: {step_parameters}")
 
-        return DataPreprocessingResult({"preprocessed_data": DatasetName.PREPROCESSED_DATA})
+        return DataPreprocessingResult({"preprocessed_data": DatasetName.PREPROCESSED_DATA})  # type: ignore
 
     def _preprocess_data(
         self,
