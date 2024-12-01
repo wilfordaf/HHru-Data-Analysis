@@ -6,7 +6,7 @@ from src.entities.pipeline import PipelineConfiguration
 from src.entities.pipeline.component_result import DataPlotCreationResult, DataPreprocessingResult
 from src.pipeline.data_plot_creation_component.interfaces import IDataPlotCreationComponent
 from src.utils.artifact_publication.interfaces import ILogger
-from utils.exceptions.service_error import ServiceError
+from src.utils.exceptions.service_error import ServiceError
 
 
 class DataPlotCreationComponent(IDataPlotCreationComponent):

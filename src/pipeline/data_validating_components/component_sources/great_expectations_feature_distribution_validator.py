@@ -1,6 +1,6 @@
 from typing import Any, Dict
 
-import great_expectations as gx
+# import great_expectations as gx
 import numpy as np
 import pandas as pd
 from great_expectations.core.batch import Batch

@@ -38,7 +38,7 @@ class DataExtractingComponent(IDataExtractingComponent):
         step_parameters = self._config.components.extraction_step_properties
         if step_parameters is None:
             raise ServiceError("Пустые параметры шага загрузки данных")
-        
+
         dataset_parameters = self._data_controller.get_dataset_parameters(DatasetName.SOURCE_DATA).custom_properties
         if dataset_parameters is None:
             raise ServiceError(f"Обнаружены пустые параметры датасета {DatasetName.SOURCE_DATA}")
