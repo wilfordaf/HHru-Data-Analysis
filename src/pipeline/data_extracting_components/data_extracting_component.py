@@ -21,6 +21,7 @@ class DataExtractingComponent(IDataExtractingComponent):
     _SUPERJOB_BASE_URL = "https://russia.superjob.ru/resume/search_resume.html"
     _PAGES_COUNT = 10
     _DATE_COLUMN_NAME = "Дата обновления резюме"
+    _POSITIONS = ["ML Engineer"]
 
     def __init__(
         self,
@@ -52,7 +53,7 @@ class DataExtractingComponent(IDataExtractingComponent):
                 current_date,
                 extraction_parameters,
             )
-            for position in step_parameters.positions_to_extract
+            for position in self._POSITIONS
         ]
         if self._extracted_old_data is not None:
             position_dataframes.append(self._extracted_old_data)

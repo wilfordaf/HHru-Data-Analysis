@@ -3,8 +3,7 @@ common_properties:
   provide_artifacts_to_project_dir: true
 components:
   extraction_step_properties:
-    positions_to_extract:
-      - ML Engineer
+    test_parameter: "temp_value"
   preprocessing_step_properties:
     unmatching_jobs_threshold: 0.3
   data_validating_step_properties:
