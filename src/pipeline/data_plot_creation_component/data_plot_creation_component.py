@@ -1,3 +1,5 @@
+from typing import List
+
 import pandas as pd
 import plotly.graph_objects as go
 from clearml import Task
@@ -55,13 +57,13 @@ class DataPlotCreationComponent(IDataPlotCreationComponent):
         summary_data = {"Mean Age": df["Возраст"].mean(), "Mean Salary": df["ЗП"].mean(), "Total Entries": len(df)}
         self._target_logger.publish_dictionary_values("Dataset Summary", summary_data)
 
-        # if self._config.common_properties.utilize_clearml:
-        #     self._remove_actual_tags()
+        if self._config.common_properties.utilize_clearml:
+            self._remove_actual_tags()
 
         return DataPlotCreationResult(success=True)
 
     def _remove_actual_tags(self):
-        last_tasks = Task.get_tasks(task_name=self._CLEARML_TASK_NAME, tags=["actual"])
-        logger.error(last_tasks)
-        for last_task in last_tasks[1:]:
+        last_tasks: List[Task] = Task.get_tasks(task_name=self._CLEARML_TASK_NAME, tags=["actual"])
+        logger.error([task.id for task in last_tasks])
+        for last_task in last_tasks[:-1]:
             last_task.set_tags([])
