@@ -2,6 +2,7 @@ import pandas as pd
 import plotly.graph_objects as go
 from clearml import Task
 
+from src import logger
 from src.data_controlling.interfaces import IDataController
 from src.entities.pipeline import PipelineConfiguration
 from src.entities.pipeline.component_result import DataPlotCreationResult, DataPreprocessingResult
@@ -61,5 +62,6 @@ class DataPlotCreationComponent(IDataPlotCreationComponent):
 
     def _remove_actual_tags(self):
         last_tasks = Task.get_tasks(task_name=self._CLEARML_TASK_NAME, tags=["actual"])
-        for last_task in last_tasks:
+        logger.error(last_tasks)
+        for last_task in last_tasks[1:]:
             last_task.set_tags([])
