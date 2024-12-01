@@ -7,10 +7,7 @@ from src.data_controlling.interfaces import IDataController
 from src.entities.pipeline import PipelineConfiguration
 from src.entities.pipeline.component_result import DataPreprocessingResult, DataValidatingResult
 from src.enums import DatasetName, DatasetValidationError
-from src.pipeline.data_validating_components.component_sources import (
-    CustomMetricsValidator,
-    GreatExpectationsTargetDistributionValidator,
-)
+from src.pipeline.data_validating_components.component_sources import CustomMetricsValidator, GreatExpectationsValidator
 from src.pipeline.data_validating_components.interfaces import IDataValidatingComponent
 from src.utils.artifact_publication.interfaces import ILogger
 from src.utils.exceptions import ServiceError
@@ -54,32 +51,14 @@ class DataValidatingComponent(IDataValidatingComponent):
 
         verified_dataset = self._data_controller.get_dataset(DatasetName.VERIFIED_DATA)
 
-        gx_target_validator = GreatExpectationsTargetDistributionValidator(
-            verified_dataset,
-            dataset,
-            parameters["target_column"],
-            parameters,
-        )
-        target_validation_result = gx_target_validator.validate_data()
-        if not target_validation_result["success"]:
+        gx_target_validator = GreatExpectationsValidator(verified_dataset, dataset, parameters)
+        validation_result = gx_target_validator.validate_data()
+        if not validation_result["success"]:
             return DataValidatingResult(
                 success=False,
-                error=DatasetValidationError.TARGET_DISBALANCE_ERROR,
-                message=custom_validation_result["message"],
+                error=validation_result["error"],
+                message=validation_result["message"],
             )
-
-        # gx_feature_validator = GreatExpectationsFeatureDistributionValidator(
-        #     verified_dataset,
-        #     dataset,
-        #     parameters,
-        # )
-        # feature_validation_result = gx_feature_validator.validate_data()
-        # if not feature_validation_result["success"]:
-        #     return DataValidatingResult(
-        #         success=False,
-        #         error=DatasetValidationError.DISTRIBUTION_DEVIATION_ERROR,
-        #         message=feature_validation_result["message"],
-        #     )
 
         logger.info(f"Шаг валидации данных выполнен с параметрами: {parameters}")
         return DataValidatingResult()

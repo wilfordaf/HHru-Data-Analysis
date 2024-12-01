@@ -32,8 +32,9 @@ dataset:
       bounds:
         - 0
         - 1_000_000
-      bootstrapped_ks_test_p_value: 0.05
+      ks_test_p_value: 0.05
       kl_divergence_threshold: 0.5
+      z_score_threshold: 1.96
   verified_data:
     name: verified_data
     description: Проверенные данные для оценки смещения распределений
