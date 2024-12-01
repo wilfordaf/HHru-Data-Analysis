@@ -3,7 +3,8 @@ common_properties:
   provide_artifacts_to_project_dir: true
 components:
   extraction_step_properties:
-    test_parameter: "temp_value"
+    positions_to_extract:
+      - ML Engineer
   preprocessing_step_properties:
     unmatching_jobs_threshold: 0.3
   data_validating_step_properties:
@@ -31,7 +32,6 @@ dataset:
       bounds:
         - 0
         - 1_000_000
-      chisquare_test_p_value: 0.05
       bootstrapped_ks_test_p_value: 0.05
       kl_divergence_threshold: 0.5
   verified_data:
