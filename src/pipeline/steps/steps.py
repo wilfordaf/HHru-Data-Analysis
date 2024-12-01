@@ -61,7 +61,7 @@ def data_plot_creation_step(
     preprocessing_result: DataPreprocessingResult,
     target_logger: ILogger,
 ) -> DataPlotCreationResult:
-    from src.pipeline.data_plot_creation_component import DataPlotCreationComponent
+    from src.pipeline.data_plot_creation_components import DataPlotCreationComponent
 
     return DataPlotCreationComponent(
         config,
