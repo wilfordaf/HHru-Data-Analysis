@@ -55,7 +55,7 @@ def data_validating_step(
     ).validate_data()
 
 
-def data_plot_creation(
+def data_plot_creation_step(
     config: PipelineConfiguration,
     data_controller: IDataController,
     preprocessing_result: DataPreprocessingResult,

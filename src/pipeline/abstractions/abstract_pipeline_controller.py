@@ -4,7 +4,7 @@ from src import logger
 from src.configuration.config_loaders import PipelineConfigLoader
 from src.data_controlling.data_controller import DataController
 from src.entities.pipeline.component_result import DataValidatingResult
-from src.pipeline.steps import data_plot_creation, data_validating_step, extraction_step, preprocessing_step
+from src.pipeline.steps import data_plot_creation_step, data_validating_step, extraction_step, preprocessing_step
 from src.utils.artifact_publication.interfaces import ILogger
 from src.utils.exceptions import ClearMLError
 from src.utils.file_managers.interfaces import IFileManager
@@ -60,7 +60,7 @@ class AbstractPipelineController:
             logger.info(f"{data_validating_log} успех!")
 
             logger.info("Начинается создание графиков...")
-            data_plot_creation_result = self._get_decorated_step(data_plot_creation)(
+            data_plot_creation_result = self._get_decorated_step(data_plot_creation_step)(
                 **self._step_kwargs | {"preprocessing_result": data_preprocessing_result}
             )
             if data_plot_creation_result:
