@@ -4,6 +4,7 @@ from typing import Any, Callable, Dict, Optional
 from clearml import PipelineDecorator, Task, TaskTypes
 
 from src import name as clearml_project_name
+from src import repo
 from src.entities.pipeline import PipelineConfiguration
 from src.pipeline.abstractions import AbstractPipelineController
 from src.utils.artifact_publication.clearml_logger import ClearMLLogger
@@ -63,7 +64,7 @@ class ClearMLPipelineController(AbstractPipelineController):
             task_type=task_type,
             return_values=[f"{name}_return_value"],
             cache=False,
-            repo=".",
+            repo=repo,
             **parameters,
         )
 
