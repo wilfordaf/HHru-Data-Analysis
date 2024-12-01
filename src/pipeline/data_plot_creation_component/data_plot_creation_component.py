@@ -1,5 +1,6 @@
 import pandas as pd
 import plotly.graph_objects as go
+from clearml import Task
 
 from src.data_controlling.interfaces import IDataController
 from src.entities.pipeline import PipelineConfiguration
@@ -10,6 +11,8 @@ from src.utils.exceptions.service_error import ServiceError
 
 
 class DataPlotCreationComponent(IDataPlotCreationComponent):
+    _CLEARML_TASK_NAME = "Создание графиков"
+
     def __init__(
         self,
         config: PipelineConfiguration,
@@ -51,4 +54,12 @@ class DataPlotCreationComponent(IDataPlotCreationComponent):
         summary_data = {"Mean Age": df["Возраст"].mean(), "Mean Salary": df["ЗП"].mean(), "Total Entries": len(df)}
         self._target_logger.publish_dictionary_values("Dataset Summary", summary_data)
 
+        if self._config.common_properties.utilize_clearml:
+            self._remove_actual_tags()
+
         return DataPlotCreationResult(success=True)
+
+    def _remove_actual_tags(self):
+        last_tasks = Task.get_tasks(task_name=self._CLEARML_TASK_NAME, tags=["actual"])
+        for last_task in last_tasks:
+            last_task.set_tags([])

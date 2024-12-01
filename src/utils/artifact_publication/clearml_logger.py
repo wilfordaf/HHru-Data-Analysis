@@ -9,11 +9,6 @@ from src.utils.artifact_publication.interfaces import ILogger
 
 
 class ClearMLLogger(ILogger):
-    """
-    ClearML "из коробки" умеет интегрировать инфографику многих популярных ML-фреймворков.
-    Подробнее можно узнать в документации: https://clear.ml/docs/latest/docs/fundamentals/logger/
-    """
-
     def publish_dictionary_values(self, name: str, data_to_publish: Dict[str, Any]) -> None:
         current_logger = Logger.current_logger()
 

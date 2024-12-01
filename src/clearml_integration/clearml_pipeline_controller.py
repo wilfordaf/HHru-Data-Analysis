@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 from clearml import PipelineDecorator, Task, TaskTypes
 
@@ -23,6 +23,13 @@ class ClearMLPipelineController(AbstractPipelineController):
         "preprocessing_step": TaskTypes.data_processing,
         "data_validating_step": TaskTypes.qc,
         "data_plot_creation_step": TaskTypes.monitor,
+    }
+
+    _TASK_TAGS: Dict[str, List[str]] = {
+        "extraction_step": [],
+        "preprocessing_step": [],
+        "data_validating_step": [],
+        "data_plot_creation_step": ["actual"],
     }
 
     def __init__(self):
@@ -58,6 +65,7 @@ class ClearMLPipelineController(AbstractPipelineController):
     def _get_decorated_step(self, step: Callable[..., Any]) -> Callable[..., Any]:
         name = step.__name__
         task_type = self._TASK_TYPES[name]
+        tags = self._TASK_TAGS[name]
         parameters = self._clearml_config["components"].get(f"{name}_properties", {})
         decorated_step: Callable[[], Any] = PipelineDecorator.component(
             _func=step,
@@ -65,6 +73,7 @@ class ClearMLPipelineController(AbstractPipelineController):
             return_values=[f"{name}_return_value"],
             cache=False,
             repo=repo,
+            tags=tags,
             **parameters,
         )
 

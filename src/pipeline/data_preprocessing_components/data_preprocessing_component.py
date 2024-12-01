@@ -1,11 +1,11 @@
 import re
-from typing import Any, Dict, Union
+from typing import Any, Dict, Optional, Union
 
 import numpy as np
 import pandas as pd
-
 import torch
 from pandas._libs.missing import NAType
+from transformers import pipeline
 
 from src import logger
 from src.data_controlling.interfaces import IDataController
@@ -16,8 +16,6 @@ from src.enums import DatasetName
 from src.pipeline.data_preprocessing_components.interfaces import IDataPreprocessingComponent
 from src.utils.artifact_publication.interfaces import ILogger
 from src.utils.exceptions import ServiceError
-
-from transformers import pipeline
 
 
 class DataPreprocessingComponent(IDataPreprocessingComponent):
@@ -33,7 +31,7 @@ class DataPreprocessingComponent(IDataPreprocessingComponent):
         self._extracting_result = extracting_result
         self._target_logger = target_logger
 
-        # self._jobs_classifier_pipeline: Optional[pipeline] = None
+        self._jobs_classifier_pipeline: Optional[pipeline] = None
 
     def preprocess_data(self) -> DataPreprocessingResult:
         step_parameters = self._config.components.preprocessing_step_properties
