@@ -8,19 +8,35 @@ authors = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.11"
-pandas = "2.2.3"
+python = ">=3.10,<3.13"
+pandas = "2.1.4"
 requests = "2.32.3"
 clearml = "1.16.5"
+pydantic = "2.9.2"
+dill = "0.3.9"
+pyyaml = "6.0.2"
+plotly = "5.24.1"
+great-expectations = "1.2.4"
+transformers = "4.46.3"
+beautifulsoup4 = "4.12.3"
+torch = {version = "^2.5.1+cu124", source = "pytorch-gpu"}
+torchvision = {version = "^0.20.1+cu124", source = "pytorch-gpu"}
+torchaudio = {version = "^2.5.1+cu124", source = "pytorch-gpu"}
 
 [tool.poetry.dev-dependencies]
-pytest = ">=7.4.3"
-pytest-cov = ">=4.1.0"
-mypy = ">=1.6.1"
-flake8 = ">=6.1.0"
-tox = ">=4.11.3"
-pandas-stubs = ">=2.1.4.231227"
+pytest = "7.4.3"
+pytest-cov = "4.1.0"
+mypy = "1.6.1"
+flake8 = "6.1.0"
+tox = "4.11.3"
+pandas-stubs = "^2.1.4.231227"
 types-requests = "^2.32.0.20240907"
+types-pyyaml = "^6.0.12.20240917"
+
+[[tool.poetry.source]]
+name = "pytorch-gpu"
+url = "https://download.pytorch.org/whl/cu124"
+priority = "explicit"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

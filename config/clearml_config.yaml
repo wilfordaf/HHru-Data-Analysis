@@ -1,0 +1,22 @@
+common_properties:
+  name: "Report pipeline"
+  version: "1.0.0"
+  default_queue: "common_queue"
+  pipeline_execution_queue: "services"
+components:
+  extraction_step_properties:
+    name: "Извлечение исходных данных"
+  preprocessing_step_properties:
+    name: "Предобработка данных для обучения модели"
+  data_validating_step_properties:
+    name: "Валидация данных"
+  data_plot_creation_step_properties:
+    name: "Создание графиков"
+schedule:
+  day: 0
+  hour: 0
+  minute: 0
+report_schedule:
+  day: 0
+  hour: 0
+  minute: 0
