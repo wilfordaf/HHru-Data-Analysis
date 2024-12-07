@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 from typing import Any, Dict, Optional, Union
 
 import numpy as np
@@ -71,9 +72,10 @@ class DataPreprocessingComponent(IDataPreprocessingComponent):
         dataset: pd.DataFrame,
         step_parameters: PreprocessingStepProperties,
     ) -> pd.DataFrame:
-        dataset["ЗП"] = dataset["ЗП"].apply(self._extract_salary)
-        dataset.dropna(subset=["ЗП"], inplace=True)
+        if dataset.shape[0] == 0:
+            return pd.DataFrame()
 
+        dataset["ЗП"] = dataset["ЗП"].apply(self._extract_salary)
         dataset["Возраст"] = dataset["Возраст"].apply(self._extract_age)
         dataset = self._column_fillna_random(dataset, "Возраст")
 
@@ -91,8 +93,7 @@ class DataPreprocessingComponent(IDataPreprocessingComponent):
 
     def _get_only_increment(self, target_data: pd.DataFrame) -> pd.DataFrame:
         extracting_column = self._data_controller.dataset_extracting_date_column_name
-        max_value = target_data[extracting_column].max()
-        df: pd.DataFrame = target_data[target_data[extracting_column] == max_value]
+        df: pd.DataFrame = target_data[target_data[extracting_column] == str(datetime.now().date)]
         return df
 
     def _format_preprocessed_data(self, preprocessed_data: pd.DataFrame) -> pd.DataFrame:
@@ -147,8 +148,8 @@ class DataPreprocessingComponent(IDataPreprocessingComponent):
         mean = dataframe[column].mean()
         std = dataframe[column].std()
 
-        lower_bound = mean - 2 * std
-        upper_bound = mean + 2 * std
+        lower_bound = mean - 3 * std
+        upper_bound = mean + 3 * std
 
         lower_bound = lower_bound if lower_bound >= 0 else 0.0
 
