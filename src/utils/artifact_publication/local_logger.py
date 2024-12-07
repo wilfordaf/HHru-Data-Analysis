@@ -38,11 +38,6 @@ class LocalLogger(ILogger):
 
             num_traces = len(plot_figure.data)
 
-            for trace in plot_figure.data:
-                if len(trace.x) > self._MAX_PLOT_POINTS:
-                    trace.x = trace.x[: self._MAX_PLOT_POINTS]
-                    trace.y = trace.y[: self._MAX_PLOT_POINTS]
-
             logger.info(f"Имя графика: {plot_name}")
             logger.info(f"Название: {title}")
             logger.info(f"Ось X: {x_axis_label}")
