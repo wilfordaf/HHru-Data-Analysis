@@ -19,7 +19,7 @@ from src.utils.exceptions.service_error import ServiceError
 
 class DataExtractingComponent(IDataExtractingComponent):
     _SUPERJOB_BASE_URL = "https://russia.superjob.ru/resume/search_resume.html"
-    _PAGES_COUNT = 10
+    _PAGES_COUNT = 1
     _DATE_COLUMN_NAME = "Дата обновления резюме"
 
     def __init__(
@@ -82,7 +82,12 @@ class DataExtractingComponent(IDataExtractingComponent):
             resume_urls = get_resume_urls_from_page(position_url_paged)
 
             for resume_url in resume_urls:
-                info = get_data_from_resume_by_url(resume_url)
+                try:
+                    info = get_data_from_resume_by_url(resume_url)
+                except Exception as e:
+                    logger.warning(f"Не получили информацию по {resume_url} из-за {e}")
+                    continue
+
                 if info["Дата обновления резюме"] < extract_from:
                     return pd.DataFrame(dataset)
 
