@@ -51,6 +51,8 @@ class DataPreprocessingComponent(IDataPreprocessingComponent):
 
         target_data = self._data_controller.get_dataset(dataset_name)
 
+        # TODO: Cache ;)
+        final_dataset_parameters["apply_preprocessing_only_to_increment"] = True
         if final_dataset_parameters["apply_preprocessing_only_to_increment"]:
             target_data = self._get_only_increment(target_data)
 
