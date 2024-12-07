@@ -168,6 +168,7 @@ class DataPlotCreationComponent(IDataPlotCreationComponent):
     def _get_mean_salary_plot(self, dataset: pd.DataFrame) -> Dict[str, go.Figure]:
         median_salary_by_positions = dataset.groupby("Искомая позиция")["ЗП"].median().reset_index()
         median_salary_by_positions.rename(columns={"ЗП": "Медиана"}, inplace=True)
+        median_salary_by_positions.dropna(inplace=True)
 
         fig = px.box(
             dataset[["Искомая позиция", "ЗП"]],
@@ -211,6 +212,7 @@ class DataPlotCreationComponent(IDataPlotCreationComponent):
             dataset[dataset["Город"] == "Москва"].groupby("Искомая позиция")["ЗП"].median().reset_index()
         )
         median_salary_moscow_by_positions.rename(columns={"ЗП": "Медиана"}, inplace=True)
+        median_salary_moscow_by_positions.dropna(inplace=True)
 
         fig = px.box(
             dataset[dataset["Город"] == "Москва"][["Искомая позиция", "ЗП"]],
