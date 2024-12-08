@@ -37,7 +37,7 @@ class DataValidatingComponent(IDataValidatingComponent):
         custom_metrics = {
             "minimal_data": lambda d, p: d.shape[0] >= p["minimal_data_rows"],
             "columns_constraint": lambda d, p: p["target_column"] in d.columns,
-            "numeric_instance": lambda d, _: (all([isinstance(salary, int) for salary in d["ЗП"]])),
+            "numeric_instance": lambda d, _: (all([isinstance(salary, float) for salary in d["ЗП"]])),
         }
 
         custom_validator = CustomMetricsValidator(dataset, parameters, custom_metrics)

@@ -26,15 +26,15 @@ dataset:
     tag: processed
     custom_properties:
       check_duplicates_by_increment: true
-      apply_preprocessing_only_to_increment: false
+      apply_preprocessing_only_to_increment: true
       target_column: ЗП
-      minimal_data_rows: 1
+      minimal_data_rows: 10
       bounds:
         - 0
         - 1_000_000
       ks_test_p_value: 0.05
       kl_divergence_threshold: 0.5
-      z_score_threshold: 1.96
+      z_score_threshold: 11.0
   verified_data:
     name: verified_data
     description: Проверенные данные для оценки смещения распределений
