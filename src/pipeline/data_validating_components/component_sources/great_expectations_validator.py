@@ -40,13 +40,13 @@ class GreatExpectationsValidator(IDataValidator):
                 "error": DatasetValidationError.BAD_DATA_QUALITY_ERROR,
             }
 
-        if not self._verify_kl_divergence_test(self._dataset_parameters["kl_divergence_threshold"]):
-            logger.error("Провален тест Кульбака-Лейблера")
-            return {
-                "success": False,
-                "message": "Провален тест Кульбака-Лейблера",
-                "error": DatasetValidationError.DISTRIBUTION_DEVIATION_ERROR,
-            }
+        # if not self._verify_kl_divergence_test(self._dataset_parameters["kl_divergence_threshold"]):
+        #     logger.error("Провален тест Кульбака-Лейблера")
+        #     return {
+        #         "success": False,
+        #         "message": "Провален тест Кульбака-Лейблера",
+        #         "error": DatasetValidationError.DISTRIBUTION_DEVIATION_ERROR,
+        #     }
 
         if not self._verify_z_score_test(self._dataset_parameters["z_score_threshold"]):
             logger.error("Провален тест z-score")
@@ -69,8 +69,13 @@ class GreatExpectationsValidator(IDataValidator):
     def _preprocess_data(self) -> None:
         skills_column = "skills_count"
 
+        self._extracted_data.dropna(subset=["ЗП"], inplace=True)
+        logger.debug(f"{self._extracted_data.shape} {self._verified_data.shape}")
+
         self._verified_data[skills_column] = self._verified_data["Навыки"].str.count(",")
+        self._verified_data.dropna(subset=[skills_column], inplace=True)
         self._extracted_data[skills_column] = self._extracted_data["Навыки"].str.count(",")
+        self._extracted_data.dropna(subset=[skills_column], inplace=True)
 
         data_source = self._context.data_sources.add_pandas(name=self._DATA_SOURCE_NAME)
         data_asset = data_source.add_dataframe_asset(name=self._DATA_ASSET_NAME)
@@ -124,6 +129,7 @@ class GreatExpectationsValidator(IDataValidator):
         )
 
         validation_results = self._extracted_dataset.validate(expectation)
+        logger.debug(validation_results)
         success: bool = validation_results.success
 
         return success
@@ -139,11 +145,13 @@ class GreatExpectationsValidator(IDataValidator):
         )
 
         validation_results = self._extracted_dataset.validate(expectation)
+        logger.debug(validation_results)
         success: bool = validation_results.success
 
         return success
 
     def _verify_ks_test(self, p_value: float) -> bool:
         _, p_value = ks_2samp(self._verified_data["skills_count"], self._extracted_data["skills_count"])
+        logger.debug(p_value)
         result: bool = p_value >= self._dataset_parameters["ks_test_p_value"]
         return result

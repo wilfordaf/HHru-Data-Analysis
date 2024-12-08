@@ -53,14 +53,14 @@ def str_date_to_datetime(date: str) -> datetime:
         return datetime.now()
 
     try:
-        day = re.findall(r"\d{2} ", date)[0].strip()
+        day = re.findall(r"\d{1,2} ", date)[0].strip()
         year_found = re.findall(r"20\d{2}", date)
         if year_found:
             year = year_found[0]
         else:
             year = 2024
 
-        return datetime(year=year, month=month, day=day)
+        return datetime(year=int(year), month=int(month), day=int(day))
     except Exception:
         return datetime(year=1970, month=1, day=1)
 
@@ -69,7 +69,7 @@ def get_date_of_updating(soup: BeautifulSoup) -> datetime:
 
     div = soup.find("div", class_="e1UIb")
 
-    updating_dates = div.find_all("span", class_="lkr9c Qpqo3 _31H4p cq8in")
+    updating_dates = div.find_all("span", class_="_1vAof _38Lv- _3fAzh _3L1uo")
 
     updating_date: str = updating_dates[1].text.strip() if updating_dates[1] is not None else ""
     return str_date_to_datetime(updating_date)
@@ -82,7 +82,10 @@ def get_age(soup: BeautifulSoup) -> str:
 
 
 def get_salary(soup: BeautifulSoup) -> str:
-    salary = soup.find("span", class_="-Hv1l Qpqo3 B7FnQ")
+    salary = soup.find("span", class_="_3OBe9 _38Lv- _2eJfc")
+    if salary is None:
+        return "По договорённости"
+
     result_salary: str = salary.text.strip().replace("\xa0", " ")
     return result_salary
 
@@ -128,6 +131,8 @@ def get_skills(soup: BeautifulSoup) -> str:
 
 def get_employment(soup: BeautifulSoup) -> str:
     div = soup.find("div", class_="vK4Mq _2NPzg _1-86a _3umqY _2w28p Kwuox")
+    if div is None:
+        return ""
 
     employment = div.find("span", class_="lkr9c Qpqo3 _1vBD3 B7FnQ")
     result_employment: str = employment.text.strip().replace("\xa0", " ") if employment else ""
@@ -165,7 +170,7 @@ def get_education(soup: BeautifulSoup) -> str:
 def get_data_from_resume_by_url(url: str) -> dict[str, Any]:
     info: dict[str, Any] = {}
 
-    response = requests.get(url)
+    response = requests.get(url, timeout=5)
     if response.status_code != 200:
         print(f"Не удалось загрузить страницу: {response.status_code}")
         return {}
