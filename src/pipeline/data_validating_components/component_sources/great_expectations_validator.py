@@ -40,6 +40,7 @@ class GreatExpectationsValidator(IDataValidator):
                 "error": DatasetValidationError.BAD_DATA_QUALITY_ERROR,
             }
 
+        # TODO: fix
         # if not self._verify_kl_divergence_test(self._dataset_parameters["kl_divergence_threshold"]):
         #     logger.error("Провален тест Кульбака-Лейблера")
         #     return {
